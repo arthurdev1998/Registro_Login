@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace RegistroLogin.Api.Controllers
+namespace CrudCadastro.Api.Controllers
 {
     [ApiController]
     [Route("[controller]")]

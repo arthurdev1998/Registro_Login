@@ -1,4 +1,4 @@
-﻿namespace Login.Common
+﻿namespace CrudCadastro.Service
 {
     public class Class1
     {

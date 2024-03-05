@@ -1,4 +1,4 @@
-namespace RegistroLogin.Api
+namespace CrudCadastro.Api
 {
     public class WeatherForecast
     {
