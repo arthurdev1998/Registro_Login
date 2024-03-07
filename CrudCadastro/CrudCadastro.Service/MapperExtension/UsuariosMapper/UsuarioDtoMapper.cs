@@ -8,7 +8,8 @@ public static class UsuarioDtoMapper
     public static UsuarioDto MapToUsuarioDto (Usuario src)
     {
         return new UsuarioDto
-        {
+        {   
+            Id = src.Id,
             Nome = src.Nome,
             Email = src.Email
         };

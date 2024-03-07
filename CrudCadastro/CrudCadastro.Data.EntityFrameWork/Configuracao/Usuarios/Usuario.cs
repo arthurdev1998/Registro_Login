@@ -1,6 +1,6 @@
 namespace CrudCadastro.Data.EntityFrameWork.Configuracao.Usuarios;
 
-public class Usuario 
+public class Usuario
 {
     public int Id { get; set; }
     public required string? Nome { get; set; }

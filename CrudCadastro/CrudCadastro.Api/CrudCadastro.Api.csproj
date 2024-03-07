@@ -23,6 +23,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CrudCadastro.Data.EntityFrameWork\CrudCadastro.Data.EntityFrameWork.csproj" />
+    <ProjectReference Include="..\CrudCadastro.Service\CrudCadastro.Service.csproj" />
   </ItemGroup>
 
 </Project>

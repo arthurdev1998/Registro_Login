@@ -1,5 +1,9 @@
 using System.Text;
+using CrudCadastro.Data.EntityFrameWork.Configuracao.Usuarios;
+using CrudCadastro.Data.EntityFrameWork.Data;
+using CrudCadastro.Service.Services.UsuarioService;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 
@@ -54,6 +58,16 @@ builder.Services.AddAuthentication(x =>
        }; 
     });
 
+//Inicio Bloco Injecao de dependencia
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("CONNECTION") ?? throw new InvalidOperationException("Connection string 'ProjetoMVCContext' not found.")));
+
+
+builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
+builder.Services.AddScoped<UsuarioInsertHandler>();
+
+//#Fim do bloco Injecao de dependencia
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -64,9 +78,6 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
 app.UseAuthorization();
-
 app.MapControllers();
-
 app.Run();
