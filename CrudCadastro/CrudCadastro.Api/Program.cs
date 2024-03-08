@@ -8,7 +8,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
-
+var configuration = builder.Configuration;
 // Add services to the container.
 
 builder.Services.AddControllers();
@@ -53,6 +53,8 @@ builder.Services.AddAuthentication(x =>
             ValidateLifetime = true, // tempo que o token espirará
             ValidateIssuerSigningKey = true,
 
+            ValidIssuer = configuration["jwt:issuer"],
+                    ValidAudience = configuration["jwt:audience"],
            
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["jwt:secretKey"]!)), ClockSkew = TimeSpan.Zero
        }; 
@@ -65,6 +67,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 builder.Services.AddScoped<UsuarioInsertHandler>();
+builder.Services.AddScoped<UsuarioLoginHandler>();
 
 //#Fim do bloco Injecao de dependencia
 
@@ -78,6 +81,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 app.Run();
