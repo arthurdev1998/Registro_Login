@@ -3,7 +3,6 @@ using System.Text;
 using CrudCadastro.Common.Dtos.Usuarios;
 using CrudCadastro.Data.EntityFrameWork.Configuracao.Usuarios;
 using CrudCadastro.Service.MapperExtension.UsuariosMapper;
-using Npgsql.Replication;
 
 namespace CrudCadastro.Service.Services.UsuarioService;
 

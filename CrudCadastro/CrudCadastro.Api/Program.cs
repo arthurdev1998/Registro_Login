@@ -68,6 +68,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 builder.Services.AddScoped<UsuarioInsertHandler>();
 builder.Services.AddScoped<UsuarioLoginHandler>();
+builder.Services.AddScoped<UsuarioGetAllHandler>();
 
 //#Fim do bloco Injecao de dependencia
 

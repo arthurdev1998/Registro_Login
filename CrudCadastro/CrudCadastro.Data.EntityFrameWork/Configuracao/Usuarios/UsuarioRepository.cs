@@ -3,6 +3,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
+using CrudCadastro.Data.EntityFrameWork.Configuracao.Paginacoes;
 using CrudCadastro.Data.EntityFrameWork.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -79,9 +80,14 @@ public class UsuarioRepository : IUsuarioRepository
         return new JwtSecurityTokenHandler().WriteToken(token);
     }
 
-    public Task<List<Usuario>> GetAllAsync(bool asNoTracking)
+    public async Task<PageList<Usuario>> GetAllAsync( int pageNumber, int itensByPage, bool asNoTracking)
     {
-        throw new NotImplementedException();
+        var query =  _context.Usuario.AsQueryable();
+
+        if(asNoTracking)
+            query.AsNoTracking();
+        
+        return await PaginationExtension.CreatePagenationAsync(query, pageNumber, itensByPage);
     }
 
     public async Task<Usuario> GetUsuarioByEmail(string email)

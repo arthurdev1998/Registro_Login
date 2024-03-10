@@ -11,21 +11,24 @@ public class UsuarioController : ControllerBase
 {
     private readonly UsuarioInsertHandler _usuarioInsertHandler;
     private readonly UsuarioLoginHandler _usuarioLoginHandler;
+    private readonly UsuarioGetAllHandler _usuarioGetAllHandler;
 
     public UsuarioController(UsuarioInsertHandler usuarioInsertHandler,
-                                UsuarioLoginHandler usuarioLoginHandler)
+                                UsuarioLoginHandler usuarioLoginHandler,
+                                UsuarioGetAllHandler usuarioGetAllHandler)
     {
         _usuarioInsertHandler = usuarioInsertHandler;
         _usuarioLoginHandler = usuarioLoginHandler;
+        _usuarioGetAllHandler = usuarioGetAllHandler;
     }
 
     [HttpPost]
     [Authorize]
     public async Task<IActionResult> Registrar(UsuarioInsertDto usuario)
     {
-        if(usuario == null)
+        if (usuario == null)
             return BadRequest("usuario nao pode ser nulo");
-        
+
         var usuariocadastrado = await _usuarioInsertHandler.ExecuteAsync(usuario);
 
         return Ok(usuariocadastrado);
@@ -34,14 +37,21 @@ public class UsuarioController : ControllerBase
     [HttpPost("login")]
     public async Task<IActionResult> Login(UsuarioInsertDto usuario)
     {
-        if(usuario == null)
+        if (usuario == null)
             return BadRequest("usuario nao pode ser nulo");
-        
+
         var loginUsuario = await _usuarioLoginHandler.ExecuteAsync(usuario);
 
-        if(loginUsuario != null)
+        if (loginUsuario != null)
             return Ok(loginUsuario);
-        
+
         return Unauthorized("usuario nao autorizado");
-    }   
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> GetAllUser([FromQuery] bool asnotracking, int pageNumber, int itensByPage)
+    {
+        var registro = await _usuarioGetAllHandler.ExecuteAsync(pageNumber, itensByPage, asnotracking);
+        return Ok(registro);
+    }
 }
