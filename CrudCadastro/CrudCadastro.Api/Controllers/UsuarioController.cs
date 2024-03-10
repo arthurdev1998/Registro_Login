@@ -1,7 +1,9 @@
 ﻿using CrudCadastro.Common.Dtos.Usuarios;
+using CrudCadastro.Data.EntityFrameWork.Configuracao.Usuarios;
 using CrudCadastro.Service.Services.UsuarioService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace CrudCadastro.Api.Controllers;
 
@@ -22,8 +24,10 @@ public class UsuarioController : ControllerBase
         _usuarioGetAllHandler = usuarioGetAllHandler;
     }
 
+    [SwaggerOperation(Summary = "Inseri um Usuario")]
     [HttpPost]
     [Authorize]
+    [ProducesResponseType(typeof(UsuarioDto), 200)]
     public async Task<IActionResult> Registrar(UsuarioInsertDto usuario)
     {
         if (usuario == null)
@@ -34,7 +38,9 @@ public class UsuarioController : ControllerBase
         return Ok(usuariocadastrado);
     }
 
+    [SwaggerOperation(Summary = "Retorna um Token ao logar com um usuario")]
     [HttpPost("login")]
+    [ProducesResponseType(typeof(UsuarioToken), 200)]
     public async Task<IActionResult> Login(UsuarioInsertDto usuario)
     {
         if (usuario == null)
@@ -48,10 +54,12 @@ public class UsuarioController : ControllerBase
         return Unauthorized("usuario nao autorizado");
     }
 
+    [SwaggerOperation(Summary = "Retorna uma Lista de Usuarios")]
     [HttpGet]
+    [ProducesResponseType(typeof(List<UsuarioDto>), 200)]
     public async Task<IActionResult> GetAllUser([FromQuery] bool asnotracking, int pageNumber, int itensByPage)
     {
         var registro = await _usuarioGetAllHandler.ExecuteAsync(pageNumber, itensByPage, asnotracking);
-        return Ok(registro);
+        return Ok(registro.Data);
     }
 }

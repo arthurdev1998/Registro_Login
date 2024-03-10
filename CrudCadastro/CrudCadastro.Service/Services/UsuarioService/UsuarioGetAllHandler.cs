@@ -1,4 +1,5 @@
 using CrudCadastro.Common.Dtos.Usuarios;
+using CrudCadastro.Common.Messages;
 using CrudCadastro.Data.EntityFrameWork.Configuracao.Paginacoes;
 using CrudCadastro.Data.EntityFrameWork.Configuracao.Usuarios;
 using CrudCadastro.Service.MapperExtension.UsuariosMapper;
@@ -11,15 +12,17 @@ public class UsuarioGetAllHandler
 
     public UsuarioGetAllHandler(IUsuarioRepository usuarioRepository)
     {
-       _usuarioRepository = usuarioRepository; 
+        _usuarioRepository = usuarioRepository;
     }
 
-    public async Task<PageList<UsuarioDto>> ExecuteAsync( int pageNumber, int itensByPage, bool asNoTracking = false)
+    public async Task<ServiceResult<PageList<UsuarioDto>>> ExecuteAsync(int pageNumber, int itensByPage, bool asNoTracking = false)
     {
-        var registros = await _usuarioRepository.GetAllAsync(pageNumber, itensByPage,asNoTracking);
-        
-        var mapeamento  = registros.MapTo<List<UsuarioDto>>();
+        var registros = await _usuarioRepository.GetAllAsync(pageNumber, itensByPage, asNoTracking);
 
-         return new PageList<UsuarioDto>(mapeamento, pageNumber, itensByPage, registros.Count);
+        var mapeamento = registros.MapTo<List<UsuarioDto>>();
+
+        var listagem = new PageList<UsuarioDto>(mapeamento, pageNumber, itensByPage, registros.Count);
+
+        return new ServiceResult<PageList<UsuarioDto>>(listagem);
     }
 }

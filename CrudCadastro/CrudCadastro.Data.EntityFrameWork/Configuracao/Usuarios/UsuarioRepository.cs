@@ -95,7 +95,7 @@ public class UsuarioRepository : IUsuarioRepository
         return await _context.Usuario.SingleOrDefaultAsync(x => x.Email != null && x.Email.ToLower() == email.ToLower());
     }
 
-    public Task<Usuario> GetByIdAsync(int id)
+    public async Task<Usuario> GetByIdAsync(int id)
     {
         throw new NotImplementedException();
     }
