@@ -1,4 +1,5 @@
-﻿using CrudCadastro.Common.Dtos.Usuarios;
+﻿using System.Security.Claims;
+using CrudCadastro.Common.Dtos.Usuarios;
 using CrudCadastro.Data.EntityFrameWork.Configuracao.Usuarios;
 using CrudCadastro.Service.Services.UsuarioService;
 using Microsoft.AspNetCore.Authorization;
@@ -61,5 +62,15 @@ public class UsuarioController : ControllerBase
     {
         var registro = await _usuarioGetAllHandler.ExecuteAsync(pageNumber, itensByPage, asnotracking);
         return Ok(registro.Data);
+    }
+
+    [HttpGet("SessionUser")]
+    [ProducesResponseType(typeof(List<UsuarioDto>), 200)]
+    public async Task<int> getLooged()
+    {   
+        
+        int id = Convert.ToInt32(HttpContext.User.FindFirstValue("Id"));
+        var email = HttpContext.User.FindFirstValue("Email");
+        return id;
     }
 }

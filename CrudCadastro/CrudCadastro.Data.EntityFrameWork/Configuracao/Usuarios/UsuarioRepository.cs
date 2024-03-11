@@ -1,5 +1,6 @@
 #nullable disable
 using System.IdentityModel.Tokens.Jwt;
+using System.IO.Compression;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
@@ -58,11 +59,11 @@ public class UsuarioRepository : IUsuarioRepository
     {
         var claims = new[]
         {
-            new Claim("id", id.ToString()),
-            new Claim("email", email.ToLower()),
+            new Claim("Id", id.ToString()),
+            new Claim("Email", email.ToLower()),
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
-          };
-        
+        };
+
         var privateKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["jwt:secretkey"]!));
 
         var credentials = new SigningCredentials(privateKey, SecurityAlgorithms.HmacSha256);
@@ -80,18 +81,18 @@ public class UsuarioRepository : IUsuarioRepository
         return new JwtSecurityTokenHandler().WriteToken(token);
     }
 
-    public async Task<PageList<Usuario>> GetAllAsync( int pageNumber, int itensByPage, bool asNoTracking)
+    public async Task<PageList<Usuario>> GetAllAsync(int pageNumber, int itensByPage, bool asNoTracking)
     {
-        var query =  _context.Usuario.AsQueryable();
+        var query = _context.Usuario.AsQueryable();
 
-        if(asNoTracking)
+        if (asNoTracking)
             query.AsNoTracking();
-        
+
         return await PaginationExtension.CreatePagenationAsync(query, pageNumber, itensByPage);
     }
 
     public async Task<Usuario> GetUsuarioByEmail(string email)
-    { 
+    {
         return await _context.Usuario.SingleOrDefaultAsync(x => x.Email != null && x.Email.ToLower() == email.ToLower());
     }
 
@@ -112,9 +113,9 @@ public class UsuarioRepository : IUsuarioRepository
 
     public async Task<bool> UserExist(string email)
     {
-        if(email == null)
+        if (email == null)
             return false;
-        
+
         return await _context.Usuario.AnyAsync(x => x.Email != default && x.Email.ToLower() == email.ToLower());
     }
 }

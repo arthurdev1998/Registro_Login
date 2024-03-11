@@ -1,4 +1,6 @@
 using System.Text;
+using CrudCadastro.Api.Security.Middlewares;
+using CrudCadastro.Data.EntityFrameWork.Configuracao.Seguranca;
 using CrudCadastro.Data.EntityFrameWork.Configuracao.Usuarios;
 using CrudCadastro.Data.EntityFrameWork.Data;
 using CrudCadastro.Service.Services.UsuarioService;
@@ -55,7 +57,7 @@ builder.Services.AddAuthentication(x =>
             ValidateIssuerSigningKey = true,
 
             ValidIssuer = configuration["jwt:issuer"],
-                    ValidAudience = configuration["jwt:audience"],
+            ValidAudience = configuration["jwt:audience"],
            
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["jwt:secretKey"]!)), ClockSkew = TimeSpan.Zero
        }; 
@@ -70,6 +72,7 @@ builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 builder.Services.AddScoped<UsuarioInsertHandler>();
 builder.Services.AddScoped<UsuarioLoginHandler>();
 builder.Services.AddScoped<UsuarioGetAllHandler>();
+builder.Services.AddSingleton<ISessionData, SessionData>();
 
 //#Fim do bloco Injecao de dependencia
 
@@ -86,4 +89,7 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
+
+app.UseMiddleware<SessionDataMeddleware>();
+
 app.Run();
