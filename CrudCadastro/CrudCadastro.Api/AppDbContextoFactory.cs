@@ -17,7 +17,6 @@ public class AppDbContextoFactory : IDesignTimeDbContextFactory<AppDbContext>
         var connectionString = config.GetConnectionString("CONNECTION");
         builder.UseNpgsql(connectionString, b => b.MigrationsAssembly("CrudCadastro.Api"));
 
-
         return new AppDbContext(builder.Options);
     }
 }

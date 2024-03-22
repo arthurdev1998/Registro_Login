@@ -5,8 +5,8 @@ namespace CrudCadastro.Data.EntityFrameWork.Data;
 
 public class AppDbContext : DbContext
 {
-      public AppDbContext() : base()
-    {}
+    public AppDbContext() : base()
+    { }
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
     { }
 
