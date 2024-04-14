@@ -65,13 +65,14 @@ builder.Services.AddAuthentication(x =>
 
 //Inicio Bloco Injecao de dependencia
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("CONNECTION") ?? throw new InvalidOperationException("Connection string 'ProjetoMVCContext' not found.")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("CONNECTION") ?? throw new InvalidOperationException("Connection string 'ProjetoMVCContext' not found.")));
 
 
 builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 builder.Services.AddScoped<UsuarioInsertHandler>();
 builder.Services.AddScoped<UsuarioLoginHandler>();
 builder.Services.AddScoped<UsuarioGetAllHandler>();
+builder.Services.AddScoped<UsuarioRefreshTokenHandler>();
 builder.Services.AddSingleton<ISessionData, SessionData>();
 
 //#Fim do bloco Injecao de dependencia

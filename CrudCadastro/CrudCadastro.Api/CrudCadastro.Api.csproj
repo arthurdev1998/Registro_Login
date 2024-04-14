@@ -4,7 +4,7 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <InvariantGlobalization>true</InvariantGlobalization>
+    <InvariantGlobalization>false</InvariantGlobalization>
   </PropertyGroup>
 
   <ItemGroup>
@@ -13,6 +13,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.0">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
@@ -25,6 +26,10 @@
   <ItemGroup>
     <ProjectReference Include="..\CrudCadastro.Data.EntityFrameWork\CrudCadastro.Data.EntityFrameWork.csproj" />
     <ProjectReference Include="..\CrudCadastro.Service\CrudCadastro.Service.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Migrations\" />
   </ItemGroup>
 
 </Project>

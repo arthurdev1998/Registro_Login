@@ -2,47 +2,52 @@
 using CrudCadastro.Data.EntityFrameWork.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
 namespace CrudCadastro.Api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240322014534_Initial")]
-    partial class Initial
+    [Migration("20240414050542_initial")]
+    partial class initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.2")
-                .HasAnnotation("Relational:MaxIdentifierLength", 63);
+                .HasAnnotation("ProductVersion", "8.0.4")
+                .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
-            NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
             modelBuilder.Entity("CrudCadastro.Data.EntityFrameWork.Configuracao.Usuarios.Usuario", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+                        .HasColumnType("int")
+                        .HasColumnName("cod_serial_usuario");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Email")
-                        .HasColumnType("text");
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("email");
 
                     b.Property<string>("Nome")
-                        .HasColumnType("text");
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("nome");
 
                     b.Property<byte[]>("PasswordHash")
-                        .HasColumnType("bytea");
+                        .HasColumnType("varbinary(max)")
+                        .HasColumnName("passwordhash");
 
                     b.Property<byte[]>("PasswordSalt")
-                        .HasColumnType("bytea");
+                        .HasColumnType("varbinary(max)")
+                        .HasColumnName("passwordsalt");
 
                     b.HasKey("Id");
 
